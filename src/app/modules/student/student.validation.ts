@@ -34,10 +34,9 @@ const localGuardianSchema = z.object({
 
 // Define the Student schema
 const studentSchema = z.object({
-  id: z.string().min(1, { message: "ID is required" }),
-  user:objectIdSchema,
-  name: userNameSchema,
   password:z.string().min(1,{ message: "password is required" }),
+  student:z.object({
+  name: userNameSchema,
   gender: z.enum(['male', 'female'], { message: "Gender must be 'male' or 'female'" }),
   dateOfBirth: z.string().optional(),
   email: z.string().email({ message: "Invalid email format" }),
@@ -49,7 +48,10 @@ const studentSchema = z.object({
   guardian: guardianSchema,
   localGuardian: localGuardianSchema,
   profileImg: z.string().url({ message: "Invalid URL for Profile Image" }).optional(),
+  })
 });
 
 // Export the Zod validation schema for Student
-export const StudentValidationSchema = studentSchema;
+export const studentValidations = {
+  studentSchema
+};

@@ -10,7 +10,7 @@ const userNameSchema = new Schema<UserName>({
   firstName: { type: String, required: [true, 'FirstName is required'] },
   middleName: { type: String, required: [true, 'MiddleName is required'] },
   lastName: { type: String, required: [true, 'LastName is required'] },
-});
+},{ _id: false });
 
 const guardianSchema = new Schema<Guardian>({
   fatherName: { type: String, required: true },
@@ -19,14 +19,14 @@ const guardianSchema = new Schema<Guardian>({
   motherName: { type: String, required: true },
   motherOccupation: { type: String, required: true },
   motherContactNo: { type: String, required: true },
-});
+},{ _id: false });
 
 const localGuardianSchema = new Schema<LocalGuardian>({
   name: { type: String, required: true },
   occupation: { type: String, required: true },
   contactNo: { type: String, required: true },
   address: { type: String, required: true },
-});
+}, { _id: false });
 
 const studentSchema = new Schema<TStudent>({
   user: {
