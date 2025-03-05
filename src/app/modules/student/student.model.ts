@@ -69,7 +69,13 @@ const studentSchema = new Schema<TStudent>({
     type: localGuardianSchema,
     required: true,
   },
-  profileImg: { type: String, required: true },
+  profileImg:{ type: String, required: true },
+  admissionSemester:{
+    type: Schema.Types.ObjectId,
+    required: [true, 'User id is required'],
+    unique: true,
+    ref:'academicSemester'
+  }
 },{
   timestamps:true
 });

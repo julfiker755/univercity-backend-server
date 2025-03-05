@@ -48,6 +48,7 @@ const studentSchema = z.object({
   guardian: guardianSchema,
   localGuardian: localGuardianSchema,
   profileImg: z.string().url({ message: "Invalid URL for Profile Image" }).optional(),
+  admissionSemester:z.string().min(1, { message: "admissionSemester Id is required" }),
   })
 });
 

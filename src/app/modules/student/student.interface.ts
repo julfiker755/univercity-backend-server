@@ -40,4 +40,5 @@ export type TStudent = {
   guardian: Guardian;
   localGuardian:LocalGuardian;
   profileImg?:string;
+  admissionSemester:Types.ObjectId
 };
