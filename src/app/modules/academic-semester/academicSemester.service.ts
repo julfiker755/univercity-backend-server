@@ -27,7 +27,7 @@ const getOneAcademicSemester = async (id: string) => {
 //  updateAcademicSemester
 const updateAcademicSemester = async (
   id: string,
-  payload: Partial<TAcademicSemester>,
+  payload:Partial<TAcademicSemester>,
 ) => {
   if (
     payload.name &&
