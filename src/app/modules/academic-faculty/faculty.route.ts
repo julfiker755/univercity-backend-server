@@ -11,7 +11,7 @@ router.get("/",facultyController.getAllFacultyIntoDB)
 router.post(
   '/create',
   ValidateRequest(facultyValidation.facultySchema),
-  facultyController.getAllFacultyIntoDB,
+  facultyController.createFacultyIntoDB,
 );
 router.get("/:facultyId",facultyController.getSingleFacultyIntoDB)
 router.patch("/:facultyId",facultyController.updateFacultyIntoDB)

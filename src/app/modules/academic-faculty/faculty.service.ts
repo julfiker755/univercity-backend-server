@@ -17,11 +17,13 @@ const getSingleFacultyIntoDB = async (id: string) => {
   return result;
 };
 const updateFacultyIntoDB = async (id: string, payload: Partial<TFacuty>) => {
-  const result = await facultyModel.findOneAndUpdate({
-    _id: id,
-    payload,
-    new: true,
-  });
+    const result = await facultyModel.findOneAndUpdate(
+        { _id: id },
+        payload,
+        {
+          new: true,
+        },
+      );
   return result;
 };
 
