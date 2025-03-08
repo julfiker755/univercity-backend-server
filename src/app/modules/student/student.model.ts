@@ -81,7 +81,8 @@ const studentSchema = new Schema<TStudent>({
     required: [true, 'deparment id is required'],
     unique: true,
     ref:'deparment'
-  }
+  },
+  isDeleted: { type: Boolean, default: false },
 },{
   timestamps:true
 });
