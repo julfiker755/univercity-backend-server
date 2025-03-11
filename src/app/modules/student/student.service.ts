@@ -2,65 +2,31 @@ import mongoose from 'mongoose';
 import { StudentModel } from './student.model';
 import { userModel } from '../user/user.model';
 import { TStudent } from './student.interface';
+import QueryBuilder from '../../builder/queryBuilder';
+import { searchableFields } from './student.constant';
 
 // getAllStudentFromBD
 const getAllStudentFromBD = async (query: Record<string, unknown>) => {
-  let search = '';
-  const queryObj={...query}
-
-  if (query.search) {
-    search = query?.search as string;
-  }
-  // console.log(search);
-
-  const searchQuery = StudentModel.find({
-    $or: ['email', 'name.firstname'].map((field) => ({
-      [field]: { $regex: search, $options: 'i' },
-    })),
-  });
-
-  // filtering
-  const excludeFields=['search','sort','limit','page','fields']
-  excludeFields.forEach(el=>delete queryObj[el])
-
-  const filterQuery =searchQuery
-    .find(queryObj)
-    .populate('admissionSemester')
-    .populate({
-      path: 'academicDeparment',
-      populate: {
-        path: 'academicFaculty',
-      },
-    });
-
-  let sort= "-createdAt"
-  if(query.sort){
-    sort=query.sort as string
-  }
-  const sortQuery=filterQuery.sort(sort)
-  let limit=1
-  let page=1
-  let skip=0
-
-  if(query.limit){
-    limit=Number(query.limit)
-  }
-  
-  if(query.page){
-    page=Number(query.page)
-    skip=(page-1)*limit
-  }
- 
-  const paginateQuery=sortQuery.skip(skip)
-  const limiQuery=paginateQuery.limit(limit)
-
-  let fields="-__v"
-  if(query.fields){
-    fields=(query.fields as string).split(",").join(' ')
-  }
-  const fieldQuery=await limiQuery.select(fields)
-  return fieldQuery;
+  const studentQuery = new QueryBuilder(
+    StudentModel.find()
+      .populate('admissionSemester')
+      .populate({
+        path: 'academicDeparment',
+        populate: {
+          path: 'academicFaculty',
+        },
+      }),
+    query,
+  )
+    .search(searchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+  const result = await studentQuery.modelQuery;
+  return result;
 };
+
 // singleStudentIntoBD
 const singleStudentIntoBD = async (id: string) => {
   const result = await StudentModel.findById({ _id: id })
@@ -135,9 +101,6 @@ export const StudentService = {
   updateStudentIntoBD,
 };
 
-
-
-
 // row search,filter,sort,skip,limit,select
 // const getAllStudentFromBD = async (query: Record<string, unknown>) => {
 //   let search = '';
@@ -180,12 +143,12 @@ export const StudentService = {
 //   if(query.limit){
 //     limit=Number(query.limit)
 //   }
-  
+
 //   if(query.page){
 //     page=Number(query.page)
 //     skip=(page-1)*limit
 //   }
- 
+
 //   const paginateQuery=sortQuery.skip(skip)
 //   const limiQuery=paginateQuery.limit(limit)
 
