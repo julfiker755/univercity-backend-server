@@ -11,9 +11,9 @@ app.use(cors());
 app.use('/api/v1',router);
 
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+// app.get('/', (req, res) => {
+//    Promise.reject()
+// });
 
 app.use(NotFound)
 app.use(globalErrorHandler)

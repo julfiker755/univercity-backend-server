@@ -4,7 +4,7 @@ import { TDeparment} from './deparment.interface';
 
 const deparmentSchema = new Schema<TDeparment>(
   {
-    name: { type: String, required: true ,unique:true},
+    name: { type: String, required: true},
     academicFaculty:{
        type:Schema.Types.ObjectId,
        ref:"facuty"
@@ -15,13 +15,13 @@ const deparmentSchema = new Schema<TDeparment>(
   },
 );
 
-// deparmentSchema.pre("save",async function(next){
-//   const isDeparmentExsis=await deparmentModel.findOne({name:this.name})
-//   if(isDeparmentExsis){
-//     throw new Error("This deparment is already exist!")
-//   }
-//   next()
-// })
+deparmentSchema.pre("save",async function(next){
+  const isDeparmentExsis=await deparmentModel.findOne({name:this.name})
+  if(isDeparmentExsis){
+    throw new Error("This deparment is already exist!")
+  }
+  next()
+})
 
 deparmentSchema.pre("findOneAndUpdate",async function(next){
  const query=this.getQuery()

@@ -29,7 +29,7 @@ const globalErrorHandler:ErrorRequestHandler=(err:any,req:Request,res:Response,n
         errorSources = simplifiedError.errorSources;
     }else if(err.name === "CastError"){
         const simplifiedError= hanldeCastError(err)
-        statusCode = simplifiedError.statusCode;
+        statusCode = simplifiedError.statusCode; 
         message = simplifiedError.message;
         errorSources = simplifiedError.errorSources;
     }else if(err.code === 11000){

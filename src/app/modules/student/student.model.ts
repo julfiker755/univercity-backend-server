@@ -48,7 +48,7 @@ const studentSchema = new Schema<TStudent>({
     required: true,
   },
   dateOfBirth: { type: String },
-  email: { type: String, required: true },
+  email: { type: String, required: true,unique:true },
   contactNumber: { type: String, required: true },
   emergencyContactNo: { type: String, required: true },
   bloodGroup: {
@@ -73,13 +73,11 @@ const studentSchema = new Schema<TStudent>({
   admissionSemester:{
     type: Schema.Types.ObjectId,
     required: [true, 'Semester id is required'],
-    unique: true,
     ref:'academicSemester'
   },
   academicDeparment:{
     type: Schema.Types.ObjectId,
     required: [true, 'deparment id is required'],
-    unique: true,
     ref:'deparment'
   },
   isDeleted: { type: Boolean, default: false },

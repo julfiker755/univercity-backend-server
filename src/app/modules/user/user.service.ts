@@ -43,7 +43,7 @@ const createUserBD = async (password: any, payload: TStudent) => {
   } catch (err: any) {
     await sesstion.abortTransaction();
     sesstion.endSession();
-    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, err.message || 'Transaction failed');
+    throw new Error(err);
   }
 };
 
