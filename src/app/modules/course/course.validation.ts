@@ -10,7 +10,7 @@ const createCourseValidationSchema = z.object({
     prefix: z.string({ required_error: 'Prefix is required' }),
     code: z.number().int().positive({ message: 'Code must be a positive integer' }), 
     credits: z.number().positive({ message: 'Credits must be a positive number' }), 
-    preRequisiteCourses: z.array(preRequisiteCourseSchema)
+    preRequisiteCourses: z.array(preRequisiteCourseSchema).optional()
 });
 
 export const courseValidation = {
