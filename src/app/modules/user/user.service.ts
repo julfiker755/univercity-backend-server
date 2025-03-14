@@ -3,13 +3,15 @@ import config from '../../config';
 import { academicSemesterModel } from '../academic-semester/academicSemester.model';
 import { TStudent } from '../student/student.interface';
 import { StudentModel } from '../student/student.model';
-import { generateStudentId } from './user.utils';
+import { generateAdminId, generateStudentId } from './user.utils';
 import { TUser } from './user.interface';
 import { userModel } from './user.model';
 import httpStatus from 'http-status';
 import ApiError from '../../errors/apiError';
+import { TAdmin } from '../admin/admin.interface';
+import { AdminModel } from '../admin/admin.model';
 
-const createUserBD = async (password: any, payload: TStudent) => {
+const createStudentBD = async (password: any, payload: TStudent) => {
   let userData: Partial<TUser> = {};
 
   // find  academic semester info
@@ -51,6 +53,47 @@ const createUserBD = async (password: any, payload: TStudent) => {
   }
 };
 
+
+
+// createAdminIntoDB
+const createAdminIntoDB = async (password: string, payload:TAdmin) => {
+  const userData: Partial<TUser> = {};
+  userData.password = password || (config.default_password as string);
+  userData.role = 'admin';
+
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+    userData.id = await generateAdminId();
+
+    // create a user (transaction-1)
+    const newUser = await userModel.create([userData], { session }); 
+    if (!newUser.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create admin');
+    }
+    // set id , _id as user
+    payload.id = newUser[0].id;
+    payload.user = newUser[0]._id; 
+    // create a admin (transaction-2)
+    const newAdmin = await AdminModel.create([payload], { session });
+
+    if (!newAdmin.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create admin');
+    }
+
+    await session.commitTransaction();
+   session.endSession();
+
+    return newAdmin[0];
+  } catch (err: any) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new Error(err);
+  }
+};
+
 export const userService = {
-  createUserBD,
+  createStudentBD,
+  createAdminIntoDB
 };
