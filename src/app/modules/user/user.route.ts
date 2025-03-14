@@ -18,5 +18,10 @@ router.post(
   ValidateRequest(AdminValidations.createAdminValidationSchema),
   userController.createAdmin
 );
+router.post(
+  '/create-faculty',
+  // ValidateRequest(facultyValidation.facultySchema),
+  userController.createFaculty
+);
 
 export const userRoutes = router;

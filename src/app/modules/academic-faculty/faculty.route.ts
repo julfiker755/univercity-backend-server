@@ -16,4 +16,4 @@ router.post(
 router.get("/:facultyId",facultyController.getSingleFacultyIntoDB)
 router.patch("/:facultyId",facultyController.updateFacultyIntoDB)
 
-export const facultyRoutes = router;
+export const academicFacultyRoutes = router;
