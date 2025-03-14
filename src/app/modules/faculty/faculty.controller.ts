@@ -13,12 +13,23 @@ const getAllFaculties = catchAsync(async (req, res) => {
       data: result,
     });
   });
-
+  
+  const getSingleFaculty = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const result = await facultyService.getSingleFacultyFromDB( id );
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Single is retrieved succesfully',
+      data: result,
+    });
+  });
 
 
 
   
 export const facultyController = {
     getAllFaculties,
+    getSingleFaculty
   };
   

@@ -5,6 +5,6 @@ import { facultyController } from './faculty.controller';
 const router = express.Router();
 
 router.get('/',facultyController.getAllFaculties);
-// router.get('/', FacultyControllers.getAllFaculties);
+router.get('/:id', facultyController.getSingleFaculty);
 
 export const facultyRoutes = router;
