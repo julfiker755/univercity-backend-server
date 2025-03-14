@@ -30,7 +30,7 @@ class QueryBuilder<T> {
   }
 
   sort() {
-    const sortField = this.query?.sort as string;
+    const sortField = this.query?.sort as string || "-createdAt";
     if (sortField) {
       this.modelQuery = this.modelQuery.sort(sortField);
     }

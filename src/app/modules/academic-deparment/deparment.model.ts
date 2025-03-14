@@ -4,7 +4,7 @@ import { TDeparment} from './deparment.interface';
 
 const deparmentSchema = new Schema<TDeparment>(
   {
-    name: { type: String, required: true},
+    name:{type: String, required: true},
     academicFaculty:{
        type:Schema.Types.ObjectId,
        ref:"facuty"

@@ -29,7 +29,7 @@ const getAllStudentFromBD = async (query: Record<string, unknown>) => {
 
 // singleStudentIntoBD
 const singleStudentIntoBD = async (id: string) => {
-  const result = await StudentModel.findById({ _id: id })
+  const result = await StudentModel.findById(id)
     .populate('admissionSemester')
     .populate({
       path: 'academicDeparment',
@@ -42,26 +42,26 @@ const singleStudentIntoBD = async (id: string) => {
 
 // deleteStudentIntoBD
 const deleteStudentIntoBD = async (id: string) => {
-  const sesstion = await mongoose.startSession();
+  const session = await mongoose.startSession();
   try {
-    sesstion.startTransaction();
+    session.startTransaction();
     const studentResult = await StudentModel.findOneAndUpdate(
       { _id: id },
       { isDeleted: true },
-      { new: true, sesstion },
+      { new: true, session },
     );
 
     await userModel.findOneAndUpdate(
       { _id: studentResult?.user },
       { isDeleted: true },
-      { new: true, sesstion },
+      { new: true, session },
     );
-    await sesstion.commitTransaction();
-    await sesstion.endSession();
+    await session.commitTransaction();
+    await session.endSession();
     return studentResult;
   } catch (err) {
-    await sesstion.abortTransaction();
-    await sesstion.endSession();
+    await session.abortTransaction();
+    await session.endSession();
   }
 };
 
@@ -101,7 +101,7 @@ export const StudentService = {
   updateStudentIntoBD,
 };
 
-// row search,filter,sort,skip,limit,select
+// row search,filter,sort,skip,limit,select----------------------------------
 // const getAllStudentFromBD = async (query: Record<string, unknown>) => {
 //   let search = '';
 //   const queryObj={...query}
@@ -109,7 +109,7 @@ export const StudentService = {
 //   if (query.search) {
 //     search = query?.search as string;
 //   }
-//   // console.log(search);
+// console.log(search);
 
 //   const searchQuery = StudentModel.find({
 //     $or: ['email', 'name.firstname'].map((field) => ({
