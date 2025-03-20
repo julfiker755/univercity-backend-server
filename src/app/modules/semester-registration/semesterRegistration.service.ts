@@ -73,6 +73,9 @@ const getSingleSemesterRegistrationsFromDB = async (id: string) => {
   return result;
 };
 
+
+
+// updateSemesterRegistrationIntoDB
 const updateSemesterRegistrationIntoDB = async (
   id: string,
   payload: Partial<TSemesterRegistration>,
