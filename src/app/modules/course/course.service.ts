@@ -12,7 +12,7 @@ const createCourseIntoBD = async (payload: TCourse) => {
   return result;
 };
 
-// /getAllCourseFromBD
+// getAllCourseFromBD
 const getAllCourseFromBD = async (query: Record<string, unknown>) => {
   const courseQuery = new QueryBuilder(
     CourseModel.find().populate('preRequisiteCourses.course'),
@@ -118,14 +118,32 @@ const updateSingleCourseFromBD = async (
   }
 };
 
-const assignFacultiesDB = async (
+
+
+// assignFacultiesCourseDB
+const assignFacultiesCourseDB = async (
   id: string,
   payload: Partial<TCourseFaculty>,
 ) => {
   const result = await CourseFacultyModel.findByIdAndUpdate(id, {
+    course:id,
     $addToSet: { faculties: { $each: payload } },
   },{
     upsert:true,
+    new:true
+  });
+
+  return result
+};
+
+// removeFacultiesCourseDB
+const removeFacultiesCourseDB = async (
+  id: string,
+  payload: Partial<TCourseFaculty>,
+) => {
+  const result = await CourseFacultyModel.findByIdAndUpdate(id, {
+   $pull:{faculties:{$in:payload}}
+  },{
     new:true
   });
 
@@ -139,7 +157,8 @@ export const courseService = {
   createCourseIntoBD,
   getAllCourseFromBD,
   deleteCourseIntoDB,
-  assignFacultiesDB,
+  assignFacultiesCourseDB,
+  removeFacultiesCourseDB
 };
 
 // const updateSingleCourseFromBD = async (

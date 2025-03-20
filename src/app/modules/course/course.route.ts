@@ -18,6 +18,7 @@ router.patch(
 router.get('/', courseController.getAllCourses);
 router.get('/:id', courseController.getSingleCourse);
 router.delete('/:id', courseController.deleteCourse);
-router.put("/:courseId/assign-faculties",courseController.assignFaculties)
+router.put("/:courseId/assign-faculties",courseController.assignFacultiesCourse)
+router.delete("/:courseId/remove-faculties",courseController.removeFacultiesCourse)
 
 export const courseRoutes = router;
