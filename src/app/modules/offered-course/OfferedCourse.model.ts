@@ -7,27 +7,27 @@ const offeredCourseSchema = new mongoose.Schema<TOfferedCourse>(
     semesterRegistration: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: 'SemesterRegistration',
+      ref: 'semesterRegistration',
     },
     academicSemester: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: 'AcademicSemester',
+      ref: 'academicSemester',
     },
     academicFaculty: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: 'AcademicFaculty',
+      ref: 'academicfacuty',
     },
     academicDepartment: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: 'AcademicDepartment',
+      ref: 'deparment',
     },
     course: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: 'Course',
+      ref: 'course',
     },
     faculty: {
       type: Schema.Types.ObjectId,
@@ -62,7 +62,7 @@ const offeredCourseSchema = new mongoose.Schema<TOfferedCourse>(
   },
 );
 
-export const OfferedCourse = mongoose.model<TOfferedCourse>(
+export const OfferedCourseModel = mongoose.model<TOfferedCourse>(
   'OfferedCourse',
   offeredCourseSchema,
 );

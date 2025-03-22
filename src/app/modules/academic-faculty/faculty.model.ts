@@ -13,4 +13,4 @@ const facultySchema = new Schema<TFacuty>(
 
 
 
-export const facultyModel = model<TFacuty>('facuty',facultySchema);
+export const academicfacultyModel = model<TFacuty>('academicfacuty',facultySchema);

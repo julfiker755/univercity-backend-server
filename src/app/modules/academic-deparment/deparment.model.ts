@@ -7,7 +7,7 @@ const deparmentSchema = new Schema<TDeparment>(
     name:{type: String, required: true},
     academicFaculty:{
        type:Schema.Types.ObjectId,
-       ref:"facuty"
+       ref:"academicfacuty"
     }
   },
   {
