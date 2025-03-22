@@ -69,7 +69,7 @@ const studentSchema = new Schema<TStudent>({
     type: localGuardianSchema,
     required: true,
   },
-  profileImg:{ type: String, required: true },
+  profileImg:{ type: String},
   admissionSemester:{
     type: Schema.Types.ObjectId,
     required: [true, 'Semester id is required'],

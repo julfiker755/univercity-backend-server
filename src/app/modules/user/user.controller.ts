@@ -7,7 +7,7 @@ import httpStatus from 'http-status';
 
 const createStudent = catchAsync(async (req: Request, res: Response) => {
   const { password, student: studentData } = req.body;
-  const result = await userService.createStudentBD(password, studentData);
+  const result = await userService.createStudentBD(req.file,password, studentData);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

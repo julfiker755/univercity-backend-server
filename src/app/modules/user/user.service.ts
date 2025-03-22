@@ -13,10 +13,11 @@ import { AdminModel } from '../admin/admin.model';
 import { FacultyModel } from '../faculty/faculty.model';
 import { TFaculty } from '../faculty/faculty.interface';
 import { deparmentModel } from '../academic-deparment/deparment.model';
+import { sendImageToCloudinary } from '../../ulits/sendImageToCloudinary';
 
 
 // createStudentBD 
-const createStudentBD = async (password: any, payload: TStudent) => {
+const createStudentBD = async (file:any,password: any, payload: TStudent) => {
   let userData: Partial<TUser> = {};
   const admissionSemesterInfo = await academicSemesterModel.findById(
     payload?.admissionSemester,
@@ -24,11 +25,16 @@ const createStudentBD = async (password: any, payload: TStudent) => {
   userData.id = await generateStudentId(admissionSemesterInfo as any);
   userData.password = password || config.default_password;
   userData.role = 'student';
+  const imageName=`${userData.id}${payload.name.firstName}`
+  const path=file.path
+  const {secure_url}=await sendImageToCloudinary(imageName,path) as any
+  console.log(secure_url)
 
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-
+    //  send image to cloudinary
+  
     // Transaction-1: Create User
     const newUser = await userModel.create([userData], { session });
     if (!newUser.length) {
@@ -37,6 +43,7 @@ const createStudentBD = async (password: any, payload: TStudent) => {
 
     payload.id = newUser[0].id;
     payload.user = newUser[0]._id;
+    payload.profileImg=secure_url
 
     // Transaction-2: Create Student
     const newStudent = await StudentModel.create([payload], { session }); 
