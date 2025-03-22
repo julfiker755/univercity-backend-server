@@ -4,7 +4,7 @@ import { userModel } from '../user/user.model';
 import { TLoginUser } from './auth.interface';
 import  bcrypt from 'bcrypt'
 import httpStatus from 'http-status';
-import jwt from 'jsonwebtoken';
+import { createToken } from './auth.utils';
 
 const loginUserBD = async (payload: TLoginUser) => {
   // checking if user is exist
@@ -32,15 +32,12 @@ const loginUserBD = async (payload: TLoginUser) => {
     role: userInfo.role,
   };
   //  create token and sent to the client
-  const accessToken = jwt.sign(
-    {
-      jwtPaylod,
-    },
-    config.jwt_access_secret as string,
-    { expiresIn: 60 * 60 },
-  );
+  const accessToken = createToken(jwtPaylod, config.jwt_access_secret as string,'30d')
+  const refreshToken = createToken(jwtPaylod, config.jwt_access_secret as string,'10d')
+  console.log(refreshToken)
 
   return {
+    refreshToken,
     accessToken,
     needsPasswordChange: userInfo?.needsPasswordChange,
   };
